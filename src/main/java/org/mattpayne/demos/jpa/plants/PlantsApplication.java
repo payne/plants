@@ -18,6 +18,6 @@ public class PlantsApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		plantService.createPlant("daisy");
+		plantService.createPlant("daisy","flower","perennial");
 	}
 }

@@ -14,13 +14,18 @@ public class PlantService {
         this.plantRepository = plantRepository;
     }
 
-    public PlantDTO createPlant(String name) {
+    public PlantDTO createPlant(String name, String... catNames) {
         Plant plant = new Plant(name);
+        plant = plantRepository.save(plant);
+        for (String cname: catNames) {
+            plant.addCategory(cname);
+        }
         plant = plantRepository.save(plant);
         PlantDTO dto = new PlantDTO();
         // TODO: Add ModelMapper!
         dto.setId(plant.getId());
         dto.setName(plant.getName());
+
         return dto;
     }
 }

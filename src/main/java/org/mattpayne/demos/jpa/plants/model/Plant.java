@@ -37,4 +37,17 @@ public class Plant {
     public void setName(String name) {
         this.name = name;
     }
+
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
+    }
+
+    public void addCategory(String cname) {
+        Category category = new Category(cname);
+        categories.add(category);
+    }
 }
