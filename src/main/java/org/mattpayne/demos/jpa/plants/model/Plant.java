@@ -2,10 +2,9 @@ package org.mattpayne.demos.jpa.plants.model;
 
 import com.sun.istack.NotNull;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Plant {
@@ -14,6 +13,11 @@ public class Plant {
     private Long id;
     @NotNull
     private String name;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name="plant_category",joinColumns = @JoinColumn(name="plant_id"),
+    inverseJoinColumns = @JoinColumn(name="category_id"))
+    private Set<Category> categories = new HashSet<>();
 
     public Plant() {}
     public Plant(String n) { this.name = n; }
