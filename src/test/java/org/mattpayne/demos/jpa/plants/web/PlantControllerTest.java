@@ -15,6 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mattpayne.demos.jpa.plants.dto.CategoryDTO;
 import org.mattpayne.demos.jpa.plants.dto.PlantDTO;
 import org.mattpayne.demos.jpa.plants.model.Category;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,9 +46,9 @@ public class PlantControllerTest {
     void testCreatePlant() throws Exception {
         PlantDTO postPlantDTO = new PlantDTO();
         postPlantDTO.setName("Weed");
-        HashSet<Category> cats = new HashSet<Category>();
-        cats.add(new Category("seasonal"));
-        cats.add(new Category("unwanted"));
+        HashSet<CategoryDTO> cats = new HashSet<CategoryDTO>();
+        cats.add(new CategoryDTO("seasonal"));
+        cats.add(new CategoryDTO("unwanted"));
         postPlantDTO.setCategories(cats);
 
         mockMvc.perform(post("/api/plant/")

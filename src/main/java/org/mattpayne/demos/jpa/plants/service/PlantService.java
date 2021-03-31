@@ -27,7 +27,7 @@ public class PlantService {
     public PlantDTO createPlant(PlantDTO dto) {
         Plant plant = new Plant(dto.getName());
         plant = plantRepository.save(plant);
-        for (CategoryDTO c: dto.getCategories()) {
+        for (CategoryDTO c : dto.getCategories()) {
             plant.addCategory(c.getCategoryName());
         }
         plant = plantRepository.save(plant);
@@ -38,7 +38,7 @@ public class PlantService {
         PlantDTO dto = new PlantDTO();
         dto.setName(name);
         Set<CategoryDTO> cSet = new HashSet<>();
-        for (String cName: catNames) {
+        for (String cName : catNames) {
             CategoryDTO c = new CategoryDTO(cName);
             cSet.add(c);
         }
@@ -59,8 +59,8 @@ public class PlantService {
         dto.setId(plant.getId());
         dto.setName(plant.getName());
         Set<CategoryDTO> categories = new HashSet<>();
-        for (Category c: plant.getCategories()) {
-          categories.add(fromCategory(c));
+        for (Category c : plant.getCategories()) {
+            categories.add(fromCategory(c));
         }
         dto.setCategories(categories);
         return dto;
@@ -73,21 +73,22 @@ public class PlantService {
     }
 
     public void addHistory(Long id, String note) {
-        History history = historyRepository.save(new History(note));
-        System.out.println(history);
-        System.out.println("Well?");
-    }
-    /*
-    public void addHistory(Long id, String note) {
         Optional<Plant> optional = plantRepository.findById(id);
         // TODO: Add logging!  Maybe return some error...
         if (optional.isPresent()) {
             Plant plant = optional.get();
-            plant.addHistory(note);
+            addHistory(plant, note);
             plant = plantRepository.save(plant);
         }
         //TODO: Consider returning the DTO...
     }
 
-     */
+    private void addHistory(Plant plant, String note) {
+        History history = new History(note);
+        history.setPlant(plant);
+        history = historyRepository.save(history);
+        plant.getHistories().add(history);
+        plant = plantRepository.save(plant);
+        System.out.println(plant);
+    }
 }

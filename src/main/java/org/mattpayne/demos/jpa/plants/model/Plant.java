@@ -19,11 +19,9 @@ public class Plant {
     inverseJoinColumns = @JoinColumn(name="category_id"))
     private Set<Category> categories = new HashSet<>();
 
-    /*
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name="plant_id")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "plant", orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<History> histories = new HashSet<>();
-     */
+
 
     public Plant() {}
     public Plant(String n) { this.name = n; }
@@ -57,11 +55,6 @@ public class Plant {
         categories.add(category);
     }
 
-    /*
-    public void addHistory(String note) {
-        this.histories.add(new History(note));
-    }
-
     public Set<History> getHistories() {
         return histories;
     }
@@ -69,5 +62,5 @@ public class Plant {
     public void setHistories(Set<History> histories) {
         this.histories = histories;
     }
-    */
+
 }
