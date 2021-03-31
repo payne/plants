@@ -27,7 +27,7 @@ public class PlantController {
     @PostMapping
     public ResponseEntity<PlantDTO> postPlant(@RequestBody PlantDTO plantDTO) {
         // TODO: Fix this up!
-        PlantDTO dto = plantService.createPlant(plantDTO.getName(), "TODO", "TODO2");
+        PlantDTO dto = plantService.createPlant(plantDTO);
         try {
             return ResponseEntity.created(new URI("/plant/" + dto.getId()))
                     .eTag(Long.toString(dto.getId()))

@@ -53,7 +53,12 @@ public class PlantControllerTest {
         mockMvc.perform(post("/api/plant/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(postPlantDTO))
-        ).andExpect(status().isCreated());
+        ).andExpect(status().isCreated())
+        .andExpect(jsonPath("$.name",is("Weed")))
+        .andExpect(jsonPath("$.categories[0].categoryName",is("unwanted")))
+        .andExpect(jsonPath("$.categories[1].categoryName",is("seasonal")))
+        ;
+        // TODO: Question - categories are a hashset so order is unpredictable.  what to do? TreeSet?
     }
 
     static String asJsonString(final Object obj) {

@@ -19,14 +19,26 @@ public class PlantService {
         this.plantRepository = plantRepository;
     }
 
-    public PlantDTO createPlant(String name, String... catNames) {
-        Plant plant = new Plant(name);
+    public PlantDTO createPlant(PlantDTO dto) {
+        Plant plant = new Plant(dto.getName());
         plant = plantRepository.save(plant);
-        for (String cname: catNames) {
-            plant.addCategory(cname);
+        for (Category c: dto.getCategories()) {
+            plant.addCategory(c.getCategoryName());
         }
         plant = plantRepository.save(plant);
         return fromPlant(plant);
+    }
+
+    public PlantDTO createPlant(String name, String... catNames) {
+        PlantDTO dto = new PlantDTO();
+        dto.setName(name);
+        Set<Category> cSet = new HashSet<>();
+        for (String cName: catNames) {
+            Category c = new Category(cName);
+            cSet.add(c);
+        }
+        dto.setCategories(cSet);
+        return createPlant(dto);
     }
 
     public PlantDTO findById(Long id) {
