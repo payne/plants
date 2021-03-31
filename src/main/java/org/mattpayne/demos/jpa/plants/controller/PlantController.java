@@ -2,10 +2,12 @@ package org.mattpayne.demos.jpa.plants.controller;
 
 import org.mattpayne.demos.jpa.plants.dto.PlantDTO;
 import org.mattpayne.demos.jpa.plants.service.PlantService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
+import java.net.URISyntaxException;
 
 @RestController
 @RequestMapping("/api/plant")
@@ -20,6 +22,19 @@ public class PlantController {
     @GetMapping("/{id}")
     public PlantDTO getPlantById(@PathVariable Long id) {
         return plantService.findById(id);
+    }
+
+    @PostMapping
+    public ResponseEntity<PlantDTO> postPlant(@RequestBody PlantDTO plantDTO) {
+        // TODO: Fix this up!
+        PlantDTO dto = plantService.createPlant(plantDTO.getName(), "TODO", "TODO2");
+        try {
+            return ResponseEntity.created(new URI("/plant/" + dto.getId()))
+                    .eTag(Long.toString(dto.getId()))
+                    .body(dto);
+        } catch (URISyntaxException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
 }
